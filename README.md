@@ -6,3 +6,9 @@
 暂时的功能就是，可以用手机操作音乐播放，也可以用电视遥控器控制音乐播放
 
 随时随地享受到无处不在的音乐
+
+![Image text](https://github.com/shaonianzhentan/Home-client/blob/master/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE(1).png)
+
+![Image text](https://github.com/shaonianzhentan/Home-client/blob/master/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE(2).png)
+
+![Image text](https://github.com/shaonianzhentan/Home-client/blob/master/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE(3).png)
