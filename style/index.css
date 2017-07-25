@@ -1,16 +1,16 @@
-﻿html,body{margin:0;padding:0;height:100%;cursor:url(../favicon.ico),auto;color:white;}
+﻿html,body{margin:0;padding:0;height:100%;cursor:url(../favicon.ico),auto;	}
+body{font-family: cursive,幼圆,微软雅黑;background:black;overflow:hidden;color:white;}
 webview {display:inline-flex;height:100%;}
 webview.hide {    flex: 0 1;    width: 0px;    height: 0px;  }
 a{text-decoration:none;}
-#video{display:none;}
-pointer{cursor:pointer}
-body{margin:0;padding:0;font-family: cursive,幼圆,微软雅黑;background:black;overflow:hidden;}
+.pointer{cursor:pointer}
 
 .color-ef522c{color:#ef522c;}
 .color-7db900{color:#7db900;}
 .color-02a2ef{color:#02a2ef;}
 .color-fcb900{color:#fcb900;}
 
+#video{display:none;}
 #MainPage{width:100%;z-index:0;position:absolute;height:100%;top:0;left:0;background:black;}
 #mainFrame{width:100%;z-index:-1;position:absolute;height:100%;top:0;left:0;}
 
