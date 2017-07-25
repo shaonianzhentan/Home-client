@@ -1,0 +1,28 @@
+﻿html,body{margin:0;padding:0;height:100%;cursor:url(../favicon.ico),auto;color:white;}
+webview {display:inline-flex;height:100%;}
+webview.hide {    flex: 0 1;    width: 0px;    height: 0px;  }
+a{text-decoration:none;}
+#video{display:none;}
+pointer{cursor:pointer}
+body{margin:0;padding:0;font-family: cursive,幼圆,微软雅黑;background:black;overflow:hidden;}
+
+.color-ef522c{color:#ef522c;}
+.color-7db900{color:#7db900;}
+.color-02a2ef{color:#02a2ef;}
+.color-fcb900{color:#fcb900;}
+
+#MainPage{width:100%;z-index:0;position:absolute;height:100%;top:0;left:0;background:black;}
+#mainFrame{width:100%;z-index:-1;position:absolute;height:100%;top:0;left:0;}
+
+#weather{margin-top:50px;}
+
+#NavPanel{width:150px;height:10px;position:fixed;overflow:hidden;left:0;top:0;z-index:100000;cursor:auto;transition:.5s;}
+#NavPanel:hover{height:100%;background:rgba(255,255,255,.2);}
+
+#NavPanel .BackHome{cursor:pointer;    color: white;    text-align: center;    height: 150px;    line-height: 150px;        
+				font-weight: bold;    
+				font-size: 45px;}
+#NavPanel .linkAction{display:block;width:100%;padding:20px 0;text-align:center;
+		margin-bottom:1px;background-color:rgba(0,0,0,.5);font-size:20px;font-weight:bold;
+		transition:.5s;}
+#NavPanel .linkAction:hover{background-color:rgba(0,0,0,.8);cursor:pointer;}
