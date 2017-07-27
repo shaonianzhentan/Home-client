@@ -6,7 +6,7 @@ class _163 {
   
   load(){
 	  this.parent.play('var WIN=document.querySelector("#g_iframe").contentWindow; \
-			WIN.document.querySelector(".u-btni-addply").click();');
+			WIN.document.querySelector(".u-btni-addply,.u-btni-playall").click();');
   }
   
   next() {
