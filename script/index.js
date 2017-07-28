@@ -4,6 +4,7 @@
 	this.music = new Music(document.querySelector("#mainFrame"));
 	this.conn();	
 	this.tick();	
+	this.voice = new Voice(this);
   }  
   conn (){
 	var _self = this;
@@ -83,6 +84,17 @@
 							 setTimeout(function(){
 								_self.music.wv.paste(); 
 							 },1000);
+						break;
+					}
+				break;
+				//语音控制
+				case 'voice':
+					switch(obj.result){
+						case 'listen': //显示听到的文字
+							_self.voice.listen(obj.msg);
+						break;
+						case 'end': //结束聆听
+							_self.voice.end(obj.msg);
 						break;
 					}
 				break;

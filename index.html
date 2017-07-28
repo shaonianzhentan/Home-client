@@ -4,7 +4,8 @@
     <meta charset="utf-8">    
     <title>我的PI</title>    
 	<!--动画-->
-	<link href="style/animate.min.css" rel="stylesheet">
+  <link href="style/animate.min.css" rel="stylesheet">  
+  <link href="style/loaders.css" rel="stylesheet">
 	<!--提示插件-->
 	<link href="script/SnackBar/snackbar.min.css" rel="stylesheet">
 	<script src="script/SnackBar/snackbar.min.js"></script>
@@ -30,7 +31,19 @@
 <div id="MainPage">
 	<center>
 		<iframe id="weather" width="800" scrolling="no" height="350" frameborder="0" src="http://i.tianqi.com/index.php?c=code&id=12&icon=1&num=3&site=27" onload="LoadWeather()"></iframe>
-		<div id="welcome" style="font-size:50px;font-family:幼圆;margin-top:150px;">你好啊</div>
+    <div id="welcome" style="font-size:50px;font-family:幼圆;margin-top:150px;">你好啊</div>
+    <div class="speech-loader">
+      <div class="loader-inner line-scale-pulse-out-rapid">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div class="speech-text">
+        语音助手
+      </div>	
+    </div>
 	</center>
 </div>
 
@@ -47,6 +60,7 @@ useragent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, 
 <script src="script/xfyun/tts.min.js"></script>
 <script src="script/audio.js"></script>
 <script src="script/clock.js"></script>
+<script src="script/voice.js"></script>
 <!--音乐-->
 <script src="script/music.js"></script>
 <script src="script/music.163.js"></script>
