@@ -1,0 +1,23 @@
+﻿{ 
+  "name":"家庭中心语音助手", 
+  "version":"1.0", 
+  "manifest_version":2, 
+  "description":"利用Google语音，控制树莓派", 
+  "browser_action":{ 
+    "default_icon":"icon32.png",
+	"default_popup": "popup.html"
+  },
+  "icons":{
+	"128": "icon32.png"
+  },  
+  "permissions":[     
+    "https://www.google.com.hk/*",
+	"contextMenus"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.google.com.hk/*"],
+      "js": ["Voice.js"]
+    }
+  ]
+}
