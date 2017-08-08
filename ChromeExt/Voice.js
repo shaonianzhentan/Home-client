@@ -1,11 +1,13 @@
 ﻿
-var ws = null;
+var ws = null, 
+	input = document.querySelector("#lst-ib");
 
 function LoadVoice(){	
 	try{
 		ws=new WebSocket("ws://localhost:8888");
 		ws.onopen=function(e){
 			console.log('连接成功！');
+			end();
 		};
 		ws.onmessage=function(e){
 			console.log(e.data);
@@ -17,7 +19,15 @@ function LoadVoice(){
 						switch(result){
 							case 'open':
 								//开启语音识别
-								Listen();
+								input.value = "";
+
+								var testinput = document.createElement('input');      
+								if('oninput' in testinput){
+									input.addEventListener("input",Listen,false);  
+								}else{  
+									input.onpropertychange = Listen;  
+								}  
+								document.querySelector("#gsri_ok0").click();								
 							break;
 							case 'close':
 								//关闭语音识别
@@ -55,16 +65,16 @@ function Listen(){
 	ws.send(JSON.stringify({
 		type:'voice',
 		result:'listen',
-		msg:'这里是监听到的结果。。。'
+		msg: input.value
 	}));
 }
 
 //结束监听，发送需要解析的消息
 function end(){
-	if(ws == null) return;
+	if(ws == null || input.value == "") return;
 	ws.send(JSON.stringify({
 		type:'voice',
-		result:'listen',
-		msg:'这里是监听到的结果。。。'
+		result:'end',
+		msg:input.value
 	}));
 }

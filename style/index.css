@@ -27,5 +27,5 @@ a{text-decoration:none;}
 		transition:.5s;}
 #NavPanel .linkAction:hover{background-color:rgba(0,0,0,.8);cursor:pointer;}
 
-.speech-loader{display:flex;width:800px;}
+.speech-loader{display:flex;width:800px; visibility: hidden;}
 .speech-loader .speech-text{color:white;padding:10px 0 0 20px;}
