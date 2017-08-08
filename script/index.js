@@ -90,6 +90,9 @@
 				//语音控制
 				case 'voice':
 					switch(obj.result){
+						case 'start':
+							_self.voice.start();
+						break;							
 						case 'listen': //显示听到的文字
 							_self.voice.listen(obj.msg);
 						break;
