@@ -3,7 +3,7 @@ var ws = null;
 
 function LoadVoice(){	
 	try{
-		ws=new WebSocket("ws://127.0.0.1:8888");
+		ws=new WebSocket("ws://localhost:8888");
 		ws.onopen=function(e){
 			console.log('连接成功！');
 		};
