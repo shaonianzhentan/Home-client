@@ -26,8 +26,12 @@ class Voice{
 		    this.home.music.m.prev();
 		}else if(/(下一曲)/.test(msg)){
 		    this.home.music.m.next();
-		}else if(/(播放广播)/.test(msg)){
-		
+		}else if(/(收音机)/.test(msg)){
+			this.home.music.load('app/radio.html');
+		}else if(/(百度音乐)/.test(msg)){
+			this.home.music.load('http://fm.baidu.com/');
+		}else if(/(网易音乐)/.test(msg)){
+			this.home.music.load('http://music.163.com/#/playlist?id=42711144');
 		}
 		setTimeout(function(){
 			document.querySelector(".speech-loader").style.visibility = 'hidden';

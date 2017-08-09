@@ -1,6 +1,7 @@
-﻿
+﻿//https://www.google.com/intl/en/chrome/demos/speech.html
+
 var ws = null, 
-	input = document.querySelector("#lst-ib");
+	input = document.querySelector("#interim_span");
 
 function LoadVoice(){	
 	try{
@@ -18,16 +19,11 @@ function LoadVoice(){
 						var result = obj.result;
 						switch(result){
 							case 'open':
-								//开启语音识别
-								input.value = "";
-
-								var testinput = document.createElement('input');      
-								if('oninput' in testinput){
-									input.addEventListener("input",Listen,false);  
-								}else{  
-									input.onpropertychange = Listen;  
-								}  
-								document.querySelector("#gsri_ok0").click();								
+								//开启语音识别								
+								input.removeEventListener("DOMSubtreeModified", Listen, false);
+								//input.value = "";
+								input.addEventListener("DOMSubtreeModified", Listen, false);
+								document.querySelector("#start_img").click();
 							break;
 							case 'close':
 								//关闭语音识别
@@ -65,16 +61,16 @@ function Listen(){
 	ws.send(JSON.stringify({
 		type:'voice',
 		result:'listen',
-		msg: input.value
+		msg: input.innerText
 	}));
 }
 
 //结束监听，发送需要解析的消息
 function end(){
-	if(ws == null || input.value == "") return;
+	if(ws == null || input.innerText == "") return;
 	ws.send(JSON.stringify({
 		type:'voice',
 		result:'end',
-		msg:input.value
+		msg:input.innerText
 	}));
 }

@@ -11,12 +11,12 @@
 	"128": "icon32.png"
   },  
   "permissions":[     
-    "https://www.google.com.hk/*",
-	"contextMenus"
+    "https://www.google.com/intl/en/chrome/demos/*",
+	  "contextMenus"
   ],
   "content_scripts": [
     {
-      "matches": ["https://www.google.com.hk/*"],
+      "matches": ["https://www.google.com/intl/en/chrome/demos/*"],
       "js": ["Voice.js"]
     }
   ]
