@@ -1,45 +1,45 @@
 //语音控制类
-class Voice{
-	
-	constructor(h){
+class Voice {
+
+	constructor(h) {
 		this.home = h;
 	}
-	
-	start(){
+
+	start() {
 		//发送信息，开始监听		
-		this.home.send({type:'voice-remote', result:'open'});
+		this.home.send({ type: 'voice-remote', result: 'open' });
 		document.querySelector(".speech-loader").style.visibility = 'visible';
 	}
-	
+
 	//聆听与显示
-	listen(msg){
+	listen(msg) {
 		document.querySelector(".speech-text").innerHTML = msg;
 	}
-	
+
 	//理解与执行
-	end(msg){
-		if(/(播放音乐|播放)/.test(msg)){
-		    this.home.music.m.play();
-		}else if(/(暂停音乐|暂停)/.test(msg)){
-		    this.home.music.m.pause();
-		}else if(/(上一曲)/.test(msg)){
-		    this.home.music.m.prev();
-		}else if(/(下一曲)/.test(msg)){
-		    this.home.music.m.next();
-		}else if(/(收音机)/.test(msg)){
+	end(msg) {
+		if (/(播放音乐|播放)/.test(msg)) {
+			this.home.music.m.play();
+		} else if (/(暂停音乐|暂停)/.test(msg)) {
+			this.home.music.m.pause();
+		} else if (/(上一曲)/.test(msg)) {
+			this.home.music.m.prev();
+		} else if (/(下一曲)/.test(msg)) {
+			this.home.music.m.next();
+		} else if (/(收音机)/.test(msg)) {
 			this.home.music.load('app/radio.html');
-		}else if(/(百度音乐)/.test(msg)){
+		} else if (/(百度音乐)/.test(msg)) {
 			this.home.music.load('http://fm.baidu.com/');
-		}else if(/(网易音乐)/.test(msg)){
+		} else if (/(网易音乐)/.test(msg)) {
 			this.home.music.load('http://music.163.com/#/playlist?id=42711144');
 		}
-		setTimeout(function(){
+		setTimeout(function () {
 			document.querySelector(".speech-loader").style.visibility = 'hidden';
 		}, 3000);
 	}
-	
+
 	//关闭语音识别
-	close(){
-		this.home.send({type:'voice-remote', result:'close'});
+	close() {
+		this.home.send({ type: 'voice-remote', result: 'close' });
 	}
 }
