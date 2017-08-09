@@ -11,14 +11,15 @@ document.querySelector("#select_dialect").value="cmn-Hans-CN";
 }
 
 var ws = null, 
-	input = document.querySelector("#interim_span");
+	input = document.querySelector("#interim_span"),
+	final_span = document.querySelector("#final_span");
 
 function LoadVoice(){	
 	try{
 		ws=new WebSocket("ws://localhost:8888");
 		ws.onopen=function(e){
 			console.log('连接成功！');
-			end();
+			//end();
 		};
 		ws.onmessage=function(e){
 			console.log(e.data);
@@ -65,28 +66,46 @@ function LoadVoice(){
 }
 LoadVoice();
 
+var IsSend = false;
+
 //开始监听
 function Listen(){
 	if(ws == null) return;
-	if(input.innerText==""){
+	if(input.innerText=="" && final_span.innerText != ""){
 		end();
 		return;	
+	}
+	var listenText = input.innerText;
+	if(listenText.indexOf('我说完了') > 0){
+		final_span.innerText = listenText;
+		input.innerText = "";
+		return;
 	}
 	ws.send(JSON.stringify({
 		type:'voice',
 		result:'listen',
-		msg: input.innerText
+		msg: listenText
 	}));
 }
 
 //结束监听，发送需要解析的消息
 function end(){
-	var endText = document.querySelector("#final_span").innerText;
-	if(ws == null || input.innerText == "" && endText  == "") return;
+	if(IsSend) return;
+	IsSend = true;
+	console.log('sending...');
+	var endText = final_span.innerText;
+
+	document.querySelector("#start_img").click();
+
+
+	if(ws == null || (input.innerText == "" && endText  == "")) return;
 	ws.send(JSON.stringify({
 		type:'voice',
 		result:'end',
 		msg:endText
 	}));
-	document.querySelector("#final_span").innerText = "";
+	final_span.innerText = "";
+	setTimeout(function(){
+		IsSend =false;
+	},2000);
 }
