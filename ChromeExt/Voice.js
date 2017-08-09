@@ -1,5 +1,15 @@
 ﻿//https://www.google.com/intl/en/chrome/demos/speech.html
 
+window.onload=function(){
+
+
+document.querySelector("#select_language").selectedIndex = 36;
+
+document.querySelector("#select_dialect").options.add(new Option("普通话 (中国大陆)","cmn-Hans-CN"));
+document.querySelector("#select_dialect").value="cmn-Hans-CN";
+
+}
+
 var ws = null, 
 	input = document.querySelector("#interim_span");
 
@@ -58,6 +68,10 @@ LoadVoice();
 //开始监听
 function Listen(){
 	if(ws == null) return;
+	if(input.innerText==""){
+		end();
+		return;	
+	}
 	ws.send(JSON.stringify({
 		type:'voice',
 		result:'listen',
@@ -67,10 +81,12 @@ function Listen(){
 
 //结束监听，发送需要解析的消息
 function end(){
-	if(ws == null || input.innerText == "") return;
+	var endText = document.querySelector("#final_span").innerText;
+	if(ws == null || input.innerText == "" && endText  == "") return;
 	ws.send(JSON.stringify({
 		type:'voice',
 		result:'end',
-		msg:input.innerText
+		msg:endText
 	}));
+	document.querySelector("#final_span").innerText = "";
 }
