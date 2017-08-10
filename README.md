@@ -8,6 +8,8 @@
 
 随时随地享受到无处不在的音乐
 
+下载到本地 git clone https://github.com/shaonianzhentan/Home-client
+
 # 安装 `electron` 全局命令到你的 $PATH
 [electron](https://github.com/electron/electron)推荐使用[cnpm](https://github.com/cnpm/cnpm)安装，不然会很慢很慢
 
@@ -22,3 +24,8 @@
 ![Image text](https://github.com/shaonianzhentan/Home-client/blob/master/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE(2).png)
 
 ![Image text](https://github.com/shaonianzhentan/Home-client/blob/master/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE(3).png)
+
+# 更新到最新版
+git stash
+
+git pull
