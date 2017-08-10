@@ -18,6 +18,7 @@ class Voice {
 
 	//理解与执行
 	end(msg) {
+		this.listen(msg);
 		var _self = this;
 		if (/(播放音乐|播放)/.test(msg)) {
 			this.home.music.m.play();
@@ -42,7 +43,7 @@ class Voice {
 		}
 		setTimeout(function () {
 			_self.listen('家庭控制系统语音助手，小白还要为您服务');
-		}, 3000);
+		}, 5000);
 	}
 
 	//关闭语音识别
