@@ -49,7 +49,7 @@ function createWindow () {
   //contents.enableDeviceEmulation({screenPosition:'mobile'});
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools()
   
   
  

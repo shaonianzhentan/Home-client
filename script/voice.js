@@ -7,8 +7,8 @@ class Voice {
 
 	start() {
 		//发送信息，开始监听		
-		this.home.send({ type: 'voice-remote', result: 'open' });
-		document.querySelector(".speech-loader").style.visibility = 'visible';
+		this.home.send({ type: 'voice-remote', result: 'open' });		
+		this.listen('开始聆听...');
 	}
 
 	//聆听与显示
@@ -33,8 +33,9 @@ class Voice {
 		} else if (/(网易音乐)/.test(msg)) {
 			this.home.music.load('http://music.163.com/#/playlist?id=42711144');
 		}
+		var _self = this;
 		setTimeout(function () {
-			document.querySelector(".speech-loader").style.visibility = 'hidden';
+			_self.listen('准备就绪');
 		}, 3000);
 	}
 

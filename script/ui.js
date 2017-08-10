@@ -51,7 +51,7 @@ function LoadWeather(){
 	doc.body.appendChild(script);
 	
 	
-	ipcRenderer.send('system', 'closeDev');
+	//ipcRenderer.send('system', 'closeDev');
 	console.log('dev...');
 }
 		
@@ -67,7 +67,7 @@ $.fn.extend({
 		
 /***************文本显示***********************/
 (function(){
-	var textArr=['你好傻','你真是一个笨蛋','你是个好人','我TM还能说些什么','就这样吧','算了，走了就走了','有些事，不能强求的','做人最重要就是要开心咯！'],
+	var textArr=['下雨天了怎么办','我好想你','不敢打给你','我找不到原因','什么失眠的声音','变得好熟悉','沉默的场景 做你的代替','陪我听雨滴','期待让人越来越沉溺'],
 		textIndex = 0;
 	function LoadingText(){
 		$('#welcome').text(textArr[textIndex]).animateCss('fadeInDown');

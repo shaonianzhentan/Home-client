@@ -27,5 +27,23 @@ a{text-decoration:none;}
 		transition:.5s;}
 #NavPanel .linkAction:hover{background-color:rgba(0,0,0,.8);cursor:pointer;}
 
-.speech-loader{display:flex;width:800px; visibility: hidden;}
-.speech-loader .speech-text{color:white;padding:10px 0 0 20px;}
+.speech-loader{display:flex;width:800px; }
+.speech-loader .speech-text{color:white;padding:10px 0 0 20px;  
+  animation: neon2 1.5s ease-in-out infinite alternate;}
+
+
+@-webkit-keyframes neon2 {
+  from {
+    text-shadow: 0 0 10px #fff,
+               0 0 20px  #fff,
+               0 0 30px  #fff,
+               0 0 40px  #228DFF,
+               0 0 70px  #228DFF,
+               0 0 80px  #228DFF,
+               0 0 100px #228DFF,
+               0 0 150px #228DFF;
+  }
+  to {
+    text-shadow:none;
+  }
+}
