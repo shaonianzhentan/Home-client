@@ -41,7 +41,7 @@ class Voice {
 			})
 		}
 		setTimeout(function () {
-			_self.listen('准备就绪');
+			_self.listen('家庭控制系统语音助手，小白还要为您服务');
 		}, 3000);
 	}
 
