@@ -27,4 +27,5 @@
 
 # 替换本地文件到最新版
 git reset --hard
+
 git pull
