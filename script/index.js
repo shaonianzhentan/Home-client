@@ -1,10 +1,11 @@
 ﻿class HOME {
-	constructor() {
+	constructor() {		
 		this.clock = new Clock();
 		this.music = new Music(document.querySelector("#mainFrame"));
 		this.conn();
 		this.tick();
-		this.voice = new Voice(this);
+		this.voice = new Voice(this);	
+		this.media = media;	
 	}
 	conn() {
 		var _self = this;
