@@ -72,6 +72,8 @@ function initEventHandle() {
 		reconnect(wsUrl);
 	};
 	ws.onopen = function () {
+		console.log('连接成功');
+		ws.send(JSON.stringify({ type: 'voice', result: 'ready' }));
 		//心跳检测重置
 		heartCheck.reset().start();
 	};
@@ -119,7 +121,7 @@ function reconnect(url) {
 
 //心跳检测
 var heartCheck = {
-	timeout: 60000,//60秒
+	timeout: 60000 * 2,//60秒
 	timeoutObj: null,
 	serverTimeoutObj: null,
 	reset: function () {

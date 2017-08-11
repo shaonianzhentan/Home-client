@@ -45,8 +45,8 @@ class Media {
 			
 		}
 		
-		Snackbar.show({pos: 'bottom-right',text:msg, actionText:''});
-		
+		this.ShowTips(msg);
+				
 		if(callback!=null) callback();
 	}
 	
@@ -65,5 +65,9 @@ class Media {
 			video.src= url;
 			video.play();
 		}		
+	}
+
+	ShowTips(msg){
+		Snackbar.show({pos: 'bottom-right',text:msg, actionText:''});
 	}
 }

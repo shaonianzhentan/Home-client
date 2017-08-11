@@ -76,11 +76,14 @@
 							case 'lock': //锁屏
 
 								break;
+							case 'tips': //提示信息
+								_self.media.ShowTips(obj.msg);
+								break;
 							case 'speak': //说话
-								media.ShowMsg(obj.msg);
+								_self.media.ShowMsg(obj.msg);
 								break;
 							case 'voice': //声音
-								media.play(obj.msg);
+								_self.media.play(obj.msg);
 								break;
 							case 'write': //输入
 								clipboard.writeText(obj.msg);
@@ -93,6 +96,9 @@
 					//语音控制
 					case 'voice':
 						switch (obj.result) {
+							case 'ready':
+								_self.voice.text('语音助手小白已经准备好了~');
+								break;
 							case 'start':
 								_self.voice.start();
 								break;
@@ -115,11 +121,11 @@
 		}
 
 		this.ws.onopen = function () {
-			media.ShowMsg('连接成功');
+			_self.media.ShowMsg('连接成功');
 		}
 
 		this.ws.onclose = function () {
-			media.ShowMsg('连接关闭，30秒后重新连接');
+			_self.media.ShowMsg('连接关闭，30秒后重新连接');
 			setTimeout(function () {
 				_self.conn();
 			}, 30000);
