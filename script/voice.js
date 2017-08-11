@@ -11,6 +11,7 @@ class Voice {
 		this.home.send({ type: 'voice-remote', result: 'open' });
 		this.text('开始聆听...');
 		var _self = this;
+		//5秒后，还没有听到任何内容就重置
 		setTimeout(function(){
 			if(_self.isListening == false){
 				_self.reset();

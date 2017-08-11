@@ -97,7 +97,8 @@ function initEventHandle() {
 							document.querySelector("#start_img").click();
 							break;
 						case 'close':
-							//关闭语音识别
+							//关闭语音识别，重新刷新界面
+							location.reload();
 							break;
 					}
 					break;
