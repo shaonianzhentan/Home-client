@@ -10,7 +10,6 @@ a{text-decoration:none;}
 .color-02a2ef{color:#02a2ef;}
 .color-fcb900{color:#fcb900;}
 
-#video{display:none;}
 #MainPage{width:100%;z-index:0;position:absolute;height:100%;top:0;left:0;background:black;}
 #mainFrame{width:100%;z-index:-1;position:absolute;height:100%;top:0;left:0;}
 

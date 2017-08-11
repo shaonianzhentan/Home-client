@@ -154,7 +154,7 @@
 	}
 }
 
-var media = new Media(document.getElementById('video'));
+var media = new Media();
 var home = new HOME();
 
 const { ipcRenderer, clipboard } = require('electron');

@@ -7,8 +7,13 @@ var audioPalyUrl = "http://h5.xf-yun.com/audioStream/";
   */
 
 class Media {
-	constructor(v){
-		this.video = v;
+	constructor(){
+		this.video = document.createElement('video');
+		this.video.style.display = 'none';
+		this.video.onend = function(){
+
+		}
+		document.body.appendChild(this.video);
 		
 		this.session = new IFlyTtsSession({
 									'url'                : 'ws://h5.xf-yun.com/tts.do',
@@ -18,8 +23,7 @@ class Media {
 		
 	}	
 	ShowMsg (msg,time,callback){
-		var _self = this;
-		if(time==null) time==3000;
+		var _self = this;		
 		try{
 			
 			var vcn = 'yefang',	
@@ -33,8 +37,7 @@ class Media {
 					_self.play(audio_url);
 				}
 			});	
-			
-			
+						
 			//play(msg, 'vivixiaoxin')
 			//play(msg, 'yefang');
 			/*
