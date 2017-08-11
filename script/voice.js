@@ -58,9 +58,8 @@ class Voice {
 		} else {
 			$.post("http://www.tuling123.com/openapi/api",{key:'b1a4b4c8964b4d0b82dd013acef45f33',
 				info:msg.replace('小白', ''),
-				userid:'9527'},function(data){ 
-				var obj = JSON.parse(data.data);								
-				_self.home.media.ShowMsg(obj.text);
+				userid:'9527'},function(data){ 										
+				_self.home.media.ShowMsg(data.text);
 			})
 		}
 		setTimeout(function () {
