@@ -34,12 +34,12 @@ class Voice {
 	end(msg) {
 		this.text(msg);
 		var _self = this;
-		if (/(播放音乐|播放)/.test(msg)) {
-			this.home.music.m.play();
-			this.home.media.ShowMsg('播放音乐');
-		} else if (/(暂停音乐|暂停)/.test(msg)) {
+		if (/(暂停)/.test(msg)) {
 			this.home.music.m.pause();
 			this.home.media.ShowMsg('暂停音乐');
+		}else if (/(播放)/.test(msg)) {
+			this.home.music.m.play();
+			this.home.media.ShowMsg('播放音乐');
 		} else if (/(上一曲)/.test(msg)) {
 			this.home.music.m.prev();
 			this.home.media.ShowMsg('上一曲');
