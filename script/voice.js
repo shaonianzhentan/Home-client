@@ -56,8 +56,9 @@ class Voice {
 			this.home.music.load('http://music.163.com/#/playlist?id=42711144');
 			this.home.media.ShowMsg('播放网易云音乐');
 		} else {
-			$.getJSON("http://jiluxinqing.com:8887/search?code=" + encodeURIComponent(JSON.stringify({ "key": msg.replace('小白', '') })) + "&name=tuling123&uid=201708101641", function (data) {
-				console.log(data);
+			$.post("http://www.tuling123.com/openapi/api",{key:'b1a4b4c8964b4d0b82dd013acef45f33',
+				info:msg.replace('小白', ''),
+				userid:'9527'},function(data){ 
 				var obj = JSON.parse(data.data);								
 				_self.home.media.ShowMsg(obj.text);
 			})
