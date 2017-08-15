@@ -21,6 +21,11 @@ class Media {
 									'reconnectionDelay'  : 30000
 								});
 		
+
+		Messenger.options = {
+			extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+			theme: 'flat'
+		}
 	}	
 	ShowMsg (msg,time,callback){
 		var _self = this;		
@@ -71,6 +76,7 @@ class Media {
 	}
 
 	ShowTips(msg){
-		Snackbar.show({pos: 'bottom-right',text:msg, actionText:''});
+		Messenger().post(msg);		
+		//Snackbar.show({pos: 'bottom-right',text:msg, actionText:''});
 	}
 }
