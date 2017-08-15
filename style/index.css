@@ -26,7 +26,12 @@ a{text-decoration:none;}
 		transition:.5s;}
 #NavPanel .linkAction:hover{background-color:rgba(0,0,0,.8);cursor:pointer;}
 
-.speech-loader{display:flex;width:800px; }
+#music-panel{width:400px;float:left;}
+#music-info{text-align:left;margin-top:10px;}
+#music-info #music-title{display:inline-block;width:300px;}
+
+#voice-panel{width:400px;float:right;}
+.speech-loader{display:flex;width:400px; }
 .speech-loader .speech-text{color:white;padding:10px 0 0 20px;  
   animation: neon2 1.5s ease-in-out infinite alternate;}
 

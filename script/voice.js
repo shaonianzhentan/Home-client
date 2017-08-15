@@ -3,17 +3,24 @@ class Voice {
 
 	constructor(h) {
 		this.home = h;
+		this.isReady = false;
 		this.isListening = false;
 	}
 
+	ready() {
+		this.isReady = true;
+	}
+
 	start() {
+		if (!this.isReady) return;
+
 		//发送信息，开始监听		
 		this.home.send({ type: 'voice-remote', result: 'open' });
 		this.text('开始聆听...');
 		var _self = this;
 		//5秒后，还没有听到任何内容就重置
-		setTimeout(function(){
-			if(_self.isListening == false){
+		setTimeout(function () {
+			if (_self.isListening == false) {
 				_self.reset();
 			}
 		}, 5000);
@@ -37,7 +44,7 @@ class Voice {
 		if (/(暂停)/.test(msg)) {
 			this.home.music.m.pause();
 			this.home.media.ShowMsg('暂停音乐');
-		}else if (/(播放)/.test(msg)) {
+		} else if (/(播放)/.test(msg)) {
 			this.home.music.m.play();
 			this.home.media.ShowMsg('播放音乐');
 		} else if (/(上一曲)/.test(msg)) {
@@ -56,9 +63,11 @@ class Voice {
 			this.home.music.load('http://music.163.com/#/playlist?id=42711144');
 			this.home.media.ShowMsg('播放网易云音乐');
 		} else {
-			$.post("http://www.tuling123.com/openapi/api",{key:'b1a4b4c8964b4d0b82dd013acef45f33',
-				info:msg.replace('小白', ''),
-				userid:'9527'},function(data){ 										
+			$.post("http://www.tuling123.com/openapi/api", {
+				key: 'b1a4b4c8964b4d0b82dd013acef45f33',
+				info: msg.replace('小白', ''),
+				userid: '9527'
+			}, function (data) {
 				_self.home.media.ShowMsg(data.text);
 			})
 		}

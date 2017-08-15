@@ -3,6 +3,10 @@ class FM {
   constructor(t) {
 	this.parent = t;
   }
+
+  getInfo() {
+    return this.parent.getInfo("fm");
+  }
   
   next() {
     this.parent.next('next();');

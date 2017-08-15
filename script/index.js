@@ -1,11 +1,11 @@
 ﻿class HOME {
-	constructor() {		
+	constructor() {
 		this.clock = new Clock();
 		this.music = new Music(document.querySelector("#mainFrame"));
 		this.conn();
 		this.tick();
-		this.voice = new Voice(this);	
-		this.media = media;	
+		this.voice = new Voice(this);
+		this.media = media;
 	}
 	conn() {
 		var _self = this;
@@ -145,11 +145,24 @@
 	tick() {
 		var _self = this;
 		setTimeout(function () {
-			setInterval(function () {
 
+
+			var i = 0;
+
+			setInterval(function () {
 				_self.clock.start();
 
+				if (i == 10) {
+					_self.music.m.getInfo().then(function (obj) {
+						document.getElementById("music-title").innerHTML = obj.title + " - " + obj.name;
+						i = 0;
+					})
+				}
+				i++;
 			}, 1000);
+
+
+
 		}, 1000);
 	}
 }
