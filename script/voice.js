@@ -2,17 +2,15 @@
 class Voice {
 
 	constructor(h) {
-		this.home = h;
-		this.isReady = false;
+		this.home = h;		
 		this.isListening = false;
 	}
 
 	ready() {
-		this.isReady = true;
+		
 	}
 
-	start() {
-		if (!this.isReady) return;
+	start() {		
 
 		//发送信息，开始监听		
 		this.home.send({ type: 'voice-remote', result: 'open' });
