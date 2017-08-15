@@ -97,7 +97,12 @@
 					case 'voice':
 						switch (obj.result) {
 							case 'ready':
+								_self.voice.isReady = true;
 								_self.voice.text('语音助手小白已经准备好了~');
+								break;
+							case 'alive':
+								_self.voice.isReady = true;
+								_self.voice.text('主人，小白还活着，赶快来召唤我吧~');
 								break;
 							case 'start':
 								_self.voice.start();
