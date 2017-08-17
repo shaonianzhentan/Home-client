@@ -151,21 +151,9 @@
 		var _self = this;
 		setTimeout(function () {
 
-			var i = 0;
-
 			setInterval(function () {
 				_self.clock.start();
-
-				if (i == 20) {
-					_self.music.m.getInfo().then(function (obj) {
-						document.getElementById("music-title").innerHTML = obj.title + " - " + obj.name;
-						i = 0;
-					})
-				}
-				i++;
 			}, 1000);
-
-
 
 		}, 1000);
 	}

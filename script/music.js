@@ -40,6 +40,12 @@
 	setStatus(ss) {
 		this.status = ss;
 		this.optime = (new Date()).toLocaleString();
+
+		this.m.getInfo().then(function (obj) {
+			var title = obj.title || 'HAPPY';
+			var name = obj.name || 'MUSIC';
+			document.getElementById("music-title").innerHTML = title + " - " + name;
+		})
 	}
 	getInfo(ss) {
 		var _self = this;
