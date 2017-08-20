@@ -31,6 +31,7 @@ function createWindow () {
   mainWindow =  new BrowserWindow({
     width: 800,
     height: 600,
+	alwaysOnTop: true,
 	fullscreen:true,
 	autoHideMenuBar:true,
 	webSecurity:false,
@@ -130,6 +131,9 @@ ipcMain.on('system', (event, arg) => {
 		break;
 		case 'closeDev':
 			mainWindow.webContents.closeDevTools()
+		break;
+		case 'top':
+			mainWindow.setAlwaysOnTop(true)
 		break;
 	}
 })
