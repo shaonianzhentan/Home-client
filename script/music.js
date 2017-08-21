@@ -2,10 +2,6 @@
 	constructor(wv) {
 		this.wv = wv;
 		var _self = this;
-		this.wv.addEventListener('dom-ready', (e) => {
-			_self.title = _self.wv.getTitle();
-			_self.status = '载入链接';
-		});
 		this.wv.addEventListener('new-window', (e) => {
 			const protocol = require('url').parse(e.url).protocol
 			if (protocol === 'http:' || protocol === 'https:') {
@@ -20,19 +16,30 @@
 		this.url = link;
 		this.wv.src = link;
 
-		if (link.indexOf('app/radio.html') >= 0) {
-			this.m = new FM(this);
-		} else if (link.indexOf('music.163.com') >= 0) {
-			this.m = new _163(this);
-			setTimeout(function () {
-				_self.m.load();
-			}, 5000);
-		} else if (link.indexOf('www.ximalaya.com') >= 0) {
-			this.m = new XMLA(this);
-		} else if (link.indexOf('fm.baidu.com') >= 0) {
-			this.m = new BaiDu(this);
-		}
-		this.setStatus('载入链接');
+		return new Promise(function (resolve, reject) {
+
+			_self.wv.addEventListener('dom-ready', (e) => {
+
+				_self.title = _self.wv.getTitle();
+				_self.setStatus('载入链接');
+
+				if (link.indexOf('app/radio.html') >= 0) {
+					this.m = new FM(this);
+				} else if (link.indexOf('music.163.com') >= 0) {
+					this.m = new _163(this);
+					setTimeout(function () {
+						_self.m.load();
+					}, 1000);
+				} else if (link.indexOf('www.ximalaya.com') >= 0) {
+					this.m = new XMLA(this);
+				} else if (link.indexOf('fm.baidu.com') >= 0) {
+					this.m = new BaiDu(this);
+				}
+				console.log('载入链接成功');
+
+				resolve();
+			});
+		});
 	}
 	exec(script) {
 		this.wv.executeJavaScript(script);
@@ -40,12 +47,25 @@
 	setStatus(ss) {
 		this.status = ss;
 		this.optime = (new Date()).toLocaleString();
-
-		this.m.getInfo().then(function (obj) {
-			var title = obj.title || 'HAPPY';
-			var name = obj.name || 'MUSIC';
-			document.getElementById("music-title").innerHTML = title + " - " + name;
-		})
+		var _self = this;
+		setTimeout(function () {
+			_self.m.getInfo().then(function (obj) {
+				var title = obj.title || 'HAPPY';
+				var name = obj.name || 'MUSIC';
+				document.getElementById("music-title").innerHTML = title + " - " + name;
+			})
+			//发送状态信息到服务器
+			$.post('http://localhost:8888/os', {
+				key: 'setStatus', value: {
+					MusicTitle: _self.title,
+					MusicStatus: _self.status,
+					MusicUrl: _self.url,
+					MusicTime: _self.optime
+				}
+			}, function (result) {
+				console.log(result);
+			})
+		}, 1000);
 	}
 	getInfo(ss) {
 		var _self = this;

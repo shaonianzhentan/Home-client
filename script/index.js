@@ -48,16 +48,6 @@
 					//程序控制
 					case 'program':
 						switch (obj.result) {
-							case 'status':
-								_self.send({
-									k: 'status', v: {
-										MusicTitle: _self.music.title,
-										MusicStatus: _self.music.status,
-										MusicUrl: _self.music.url,
-										MusicTime: _self.music.optime
-									}
-								})
-								break;
 							case 'reload':
 								location.reload();
 								break;
@@ -104,6 +94,7 @@
 							case 'alive':
 								_self.voice.isReady = true;
 								_self.voice.text('主人，小白还活着，赶快来召唤我吧~');
+								ipcRenderer.send('system', 'top');
 								break;
 							case 'start':
 								_self.voice.start();

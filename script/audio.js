@@ -7,76 +7,74 @@ var audioPalyUrl = "http://h5.xf-yun.com/audioStream/";
   */
 
 class Media {
-	constructor(){
+	constructor() {
 		this.video = document.createElement('video');
 		this.video.style.display = 'none';
-		this.video.onend = function(){
+		this.video.onend = function () {
 
 		}
 		document.body.appendChild(this.video);
-		
+
 		this.session = new IFlyTtsSession({
-									'url'                : 'ws://h5.xf-yun.com/tts.do',
-									'reconnection'       : true,
-									'reconnectionDelay'  : 30000
-								});
-		
+			'url': 'ws://h5.xf-yun.com/tts.do',
+			'reconnection': true,
+			'reconnectionDelay': 30000
+		});
+
 
 		Messenger.options = {
 			extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
 			theme: 'flat'
 		}
-	}	
-	ShowMsg (msg,time,callback){
-		var _self = this;		
-		try{
-			
-			var vcn = 'yefang',	
-			ssb_param = {"appid": '577ca2ac', "appkey":"9a77addd1154848d", "synid":"12345", "params" : "ent=aisound,appid=577ca2ac,aue=lame,vcn="+vcn};
+	}
+	ShowMsg(msg, time, callback) {
+		var _self = this;
+		try {
 
-			this.session.start(ssb_param, msg, function (err, obj)
-			{
+			var vcn = 'yefang',
+				ssb_param = { "appid": '577ca2ac', "appkey": "9a77addd1154848d", "synid": "12345", "params": "ent=aisound,appid=577ca2ac,aue=lame,vcn=" + vcn };
+
+			this.session.start(ssb_param, msg, function (err, obj) {
 				var audio_url = audioPalyUrl + obj.audio_url;
-				if( audio_url != null && audio_url != undefined )
-				{
+				if (audio_url != null && audio_url != undefined) {
 					_self.play(audio_url);
 				}
-			});	
-						
+			});
+
 			//play(msg, 'vivixiaoxin')
 			//play(msg, 'yefang');
 			/*
 			  this.audio.src="http://tts.baidu.com/text2audio?idx=1&tex="+msg+"&cuid=baidu_speech_demo&cod=2&lan=zh&ctp=1&pdt=1&spd=5&per=0&vol=5&pit=5";
 			  this.audio.play();	
 			*/
-		}catch(ex){
-			
+		} catch (ex) {
+
 		}
-		
+
 		this.ShowTips(msg);
-				
-		if(callback!=null) callback();
+
+		if (callback != null) callback();
 	}
-	
-	play (url){	
+
+	play(url) {
 		var video = this.video;
-		if(url.indexOf('.m3u8') > 0){
-			if(Hls.isSupported()) {
+		if (url.indexOf('.m3u8') > 0) {
+			if (Hls.isSupported()) {
 				var hls = new Hls();
 				hls.loadSource(url);
 				hls.attachMedia(video);
-				hls.on(Hls.Events.MANIFEST_PARSED,function() {
-				  video.play();
-				});	
+				hls.on(Hls.Events.MANIFEST_PARSED, function () {
+					video.play();
+				});
 			}
-		}else{
-			video.src= url;
+		} else {
+			video.src = url;
 			video.play();
-		}		
+		}
 	}
 
-	ShowTips(msg){
-		Messenger().post(msg);		
+	ShowTips(msg) {
+		Messenger().post(msg);
 		//Snackbar.show({pos: 'bottom-right',text:msg, actionText:''});
 	}
 }

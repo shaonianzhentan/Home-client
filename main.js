@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain} = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const fs = require('fs')
 
@@ -26,34 +26,33 @@ app.commandLine.appendSwitch('ppapi-flash-version', '25.0.0.148')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
-  mainWindow =  new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-	alwaysOnTop: true,
-	fullscreen:true,
-	autoHideMenuBar:true,
-	webSecurity:false,
-	allowDisplayingInsecureContent:true,	
-	allowRunningInsecureContent:true,
+    fullscreen: true,
+    autoHideMenuBar: true,
+    webSecurity: false,
+    allowDisplayingInsecureContent: true,
+    allowRunningInsecureContent: true,
     webPreferences: {
       plugins: true
-    }	
+    }
   })
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/index.html`)
-  
+
   let contents = mainWindow.webContents;
 
   //contents.enableDeviceEmulation({screenPosition:'mobile'});
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools()
-  
-  
- 
+
+
+
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -90,50 +89,50 @@ app.on('activate', function () {
 // code. You can also put them in separate files and require them here.
 
 //获取本地IP地址
-function getIPAdress(){  
-    var interfaces = require('os').networkInterfaces();  
-    for(var devName in interfaces){  
-          var iface = interfaces[devName];  
-          for(var i=0;i<iface.length;i++){  
-               var alias = iface[i];  
-               if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal){  
-                     return alias.address;  
-               }  
-          }  
-    }  
+function getIPAdress() {
+  var interfaces = require('os').networkInterfaces();
+  for (var devName in interfaces) {
+    var iface = interfaces[devName];
+    for (var i = 0; i < iface.length; i++) {
+      var alias = iface[i];
+      if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+        return alias.address;
+      }
+    }
+  }
 }
 
 //console.log('----------local host: '+getIPAdress());
 
 
 ipcMain.on('system', (event, arg) => {
-	switch(arg){
-		case 'capturePage':
-			 mainWindow.capturePage((img)=>{
-				
-				var fp = '/home/pi/node/pi/screenshots.png';
-				fs.writeFile(fp, img.toJPEG(90), (err) => {
-				   event.sender.send('capturePage',fp);
-				});
-				//event.sender.send('capturePage',img.toJPEG(90).toString('base64'));
-			 });
-		break;
-		case 'GetIP':
-			var ip = getIPAdress();
-			console.log(ip);
-			event.sender.send('GetIP',ip);
-		break;
-		case 'dev':
-			mainWindow.webContents.toggleDevTools()
-		break;
-		case 'openDev':
-			mainWindow.webContents.openDevTools()
-		break;
-		case 'closeDev':
-			mainWindow.webContents.closeDevTools()
-		break;
-		case 'top':
-			mainWindow.setAlwaysOnTop(true)
-		break;
-	}
+  switch (arg) {
+    case 'capturePage':
+      mainWindow.capturePage((img) => {
+
+        var fp = '/home/pi/node/pi/screenshots.png';
+        fs.writeFile(fp, img.toJPEG(90), (err) => {
+          event.sender.send('capturePage', fp);
+        });
+        //event.sender.send('capturePage',img.toJPEG(90).toString('base64'));
+      });
+      break;
+    case 'GetIP':
+      var ip = getIPAdress();
+      console.log(ip);
+      event.sender.send('GetIP', ip);
+      break;
+    case 'dev':
+      mainWindow.webContents.toggleDevTools()
+      break;
+    case 'openDev':
+      mainWindow.webContents.openDevTools()
+      break;
+    case 'closeDev':
+      mainWindow.webContents.closeDevTools()
+      break;
+    case 'top':
+      mainWindow.setAlwaysOnTop(true)
+      break;
+  }
 })

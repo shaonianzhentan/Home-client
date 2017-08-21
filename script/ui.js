@@ -39,7 +39,6 @@ function LoadWeather(){
 		ele.removeAttribute('href');
 	});
 	
-	console.log(doc);
 	var link = doc.createElement("link");
 	link.type = "text/css";
 	link.rel = "stylesheet";
@@ -49,10 +48,7 @@ function LoadWeather(){
 	var script = doc.createElement("script")
 	script.src="http://localhost:8888/weather/weather.js";
 	doc.body.appendChild(script);
-	
-	
-	//ipcRenderer.send('system', 'closeDev');
-	console.log('dev...');
+		
 }
 		
 /***************动画插件定义***********************/
