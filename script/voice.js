@@ -44,11 +44,10 @@ class Voice {
 		
 		if (singer) {
 			var key = singer[1];
-				this.home.music.load('http://music.163.com/#/search/m/?s=' + key + '&type=100').then(function () {
-					_self.home.music.exec('HOME_MUSIC.playSinger();');
-					console.log(key + '的列表！');
-				})
-			}
+			this.home.music.load('http://music.163.com/#/search/m/?s=' + key + '&type=100').then(function () {
+				_self.home.music.exec('HOME_MUSIC.playSinger();');
+				console.log(key + '的列表！');
+			})
 		} else if (/(大点声|增加音量|大声一点)/.test(msg)) {
 			this.home.http_os('vol_up', '');
 			this.home.media.ShowMsg('增加音量');
