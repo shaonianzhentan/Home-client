@@ -12,19 +12,40 @@ window.copy = function (text) {
 
 
 window.HOME_MUSIC = {
+    //播放歌手专辑
+    playSinger: function () {
+        try {
+            var doc = document.getElementById("g_iframe").contentDocument;
+            var timer = setInterval(function () {
+                var a = doc.querySelector(".u-cover a");
+                if (a) {
+                    clearInterval(timer);
+                    a.click();
+                    setTimeout(function () {
+                        doc = document.getElementById("g_iframe").contentDocument;
+                        var btnPlay = doc.querySelector('.u-btni-addply,.u-btni-playall');
+                        //alert(btnPlay);
+                        if (btnPlay) doc.querySelector('.u-btni-addply,.u-btni-playall').click();
+                    }, 1000);
+                }
+            }, 1000);
+        } catch (ex) {
+            //alert(ex);
+        }
+    },
     getInfo: function (type) {
         try {
             var obj = {};
             if (type === "163") {
                 obj['title'] = document.querySelector(".play .name").innerText;
                 obj['name'] = document.querySelector(".play .by").innerText;
-            }else if (type === "baidu") {
+            } else if (type === "baidu") {
                 obj['title'] = document.querySelector(".fm-song-title").innerText;
                 obj['name'] = document.querySelector(".fm-artist-name").innerText;
-            }else if (type === "fm") {
+            } else if (type === "fm") {
                 obj['title'] = "";
                 obj['name'] = "";
-            }else if (type === "xmly") {
+            } else if (type === "xmly") {
                 obj['title'] = document.querySelector(".player-panel .title").innerText;
                 obj['name'] = document.querySelector(".detailContent_title").innerText;
             }

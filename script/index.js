@@ -138,6 +138,14 @@
 		}
 	}
 
+	http_os(key, value) {
+		return new Promise(function (resolve, reject) {
+			$.post('http://localhost:8888/os', { key: key, value: value }, function (data) {
+				resolve(data);
+			})
+		})
+	}
+
 	//定时器，每秒触发一次
 	tick() {
 		var _self = this;

@@ -2,15 +2,15 @@
 class Voice {
 
 	constructor(h) {
-		this.home = h;		
+		this.home = h;
 		this.isListening = false;
 	}
 
 	ready() {
-		
+
 	}
 
-	start() {		
+	start() {
 
 		//发送信息，开始监听		
 		this.home.send({ type: 'voice-remote', result: 'open' });
@@ -39,7 +39,37 @@ class Voice {
 	end(msg) {
 		this.text(msg);
 		var _self = this;
-		if (/(暂停)/.test(msg)) {
+
+		if (msg.match(/播放([^.]+)的歌/)) {
+			if (RegExp.$1) {
+				this.home.music.load('http://music.163.com/#/search/m/?s=' + RegExp.$1 + '&type=100').then(function () {
+					_self.home.music.exec('HOME_MUSIC.playSinger();');
+					console.log(RegExp.$1 + '的列表！');
+				})
+			}
+		} else if (msg.match(/我想听([^.]+)的歌/)) {
+			if (RegExp.$1) {
+				this.home.music.load('http://music.163.com/#/search/m/?s=' + RegExp.$1 + '&type=100').then(function () {
+					_self.home.music.exec('HOME_MUSIC.playSinger();');
+					console.log(RegExp.$1 + '的列表！');
+				})
+			}
+		} else if (/(大点声|增加音量|大声一点)/.test(msg)) {
+			this.home.http_os('vol_up', '');
+			this.home.media.ShowMsg('增加音量');
+		} else if (/(小点声|减少音量|小声一点)/.test(msg)) {
+			this.home.http_os('vol_down', '');
+			this.home.media.ShowMsg('减少音量');
+		} else if (/(收音机|打开广播|播放广播)/.test(msg)) {
+			this.home.music.load('app/radio.html');
+			this.home.media.ShowMsg('播放收音机');
+		} else if (/(百度音乐)/.test(msg)) {
+			this.home.music.load('http://fm.baidu.com/');
+			this.home.media.ShowMsg('播放百度音乐');
+		} else if (/(网易音乐)/.test(msg)) {
+			this.home.music.load('http://music.163.com/#/playlist?id=42711144');
+			this.home.media.ShowMsg('播放网易云音乐');
+		} else if (/(暂停)/.test(msg)) {
 			this.home.music.m.pause();
 			this.home.media.ShowMsg('暂停音乐');
 		} else if (/(播放)/.test(msg)) {
@@ -51,15 +81,6 @@ class Voice {
 		} else if (/(下一曲)/.test(msg)) {
 			this.home.music.m.next();
 			this.home.media.ShowMsg('下一曲');
-		} else if (/(收音机)/.test(msg)) {
-			this.home.music.load('app/radio.html');
-			this.home.media.ShowMsg('播放收音机');
-		} else if (/(百度音乐)/.test(msg)) {
-			this.home.music.load('http://fm.baidu.com/');
-			this.home.media.ShowMsg('播放百度音乐');
-		} else if (/(网易音乐)/.test(msg)) {
-			this.home.music.load('http://music.163.com/#/playlist?id=42711144');
-			this.home.media.ShowMsg('播放网易云音乐');
 		} else {
 			$.post("http://www.tuling123.com/openapi/api", {
 				key: 'b1a4b4c8964b4d0b82dd013acef45f33',
