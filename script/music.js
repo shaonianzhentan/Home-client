@@ -24,19 +24,18 @@
 				_self.setStatus('载入链接');
 
 				if (link.indexOf('app/radio.html') >= 0) {
-					this.m = new FM(this);
+					_self.m = new FM(_self);
 				} else if (link.indexOf('music.163.com') >= 0) {
-					this.m = new _163(this);
+					_self.m = new _163(_self);
 					setTimeout(function () {
 						_self.m.load();
 					}, 1000);
 				} else if (link.indexOf('www.ximalaya.com') >= 0) {
-					this.m = new XMLA(this);
+					_self.m = new XMLA(_self);
 				} else if (link.indexOf('fm.baidu.com') >= 0) {
-					this.m = new BaiDu(this);
+					_self.m = new BaiDu(_self);
 				}
 				console.log('载入链接成功');
-
 				resolve();
 			});
 		});
