@@ -39,19 +39,14 @@ class Voice {
 	end(msg) {
 		this.text(msg);
 		var _self = this;
-
-		if (msg.match(/播放([^.]+)的歌/)) {
-			if (RegExp.$1) {
-				this.home.music.load('http://music.163.com/#/search/m/?s=' + RegExp.$1 + '&type=100').then(function () {
+		
+		var singer = msg.match(/播放([^.]+)的歌/) || msg.match(/我想听([^.]+)的歌/);
+		
+		if (singer) {
+			var key = singer[1];
+				this.home.music.load('http://music.163.com/#/search/m/?s=' + key + '&type=100').then(function () {
 					_self.home.music.exec('HOME_MUSIC.playSinger();');
-					console.log(RegExp.$1 + '的列表！');
-				})
-			}
-		} else if (msg.match(/我想听([^.]+)的歌/)) {
-			if (RegExp.$1) {
-				this.home.music.load('http://music.163.com/#/search/m/?s=' + RegExp.$1 + '&type=100').then(function () {
-					_self.home.music.exec('HOME_MUSIC.playSinger();');
-					console.log(RegExp.$1 + '的列表！');
+					console.log(key + '的列表！');
 				})
 			}
 		} else if (/(大点声|增加音量|大声一点)/.test(msg)) {
