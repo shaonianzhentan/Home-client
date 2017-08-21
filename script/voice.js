@@ -47,7 +47,10 @@ class Voice {
 			this.home.music.load('http://music.163.com/#/search/m/?s=' + key + '&type=100').then(function () {
 				_self.home.music.exec('HOME_MUSIC.playSinger();');
 				console.log(key + '的列表！');
+				_self.home.media.ShowMsg('正在为你打开'+key+'的歌，请稍后');
 			})
+		} else if (/(刷新页面)/.test(msg)) {
+			location.reload();
 		} else if (/(大点声|增加音量|大声一点)/.test(msg)) {
 			this.home.http_os('vol_up', '');
 			this.home.media.ShowMsg('增加音量');
