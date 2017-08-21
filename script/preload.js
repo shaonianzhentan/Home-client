@@ -21,12 +21,17 @@ window.HOME_MUSIC = {
                 if (a) {
                     clearInterval(timer);
                     a.click();
-                    setTimeout(function () {
+		    timer = setInterval(function () {
                         doc = document.getElementById("g_iframe").contentDocument;
-                        var btnPlay = doc.querySelector('.u-btni-addply,.u-btni-playall');
-                        //alert(btnPlay);
-                        if (btnPlay) doc.querySelector('.u-btni-addply,.u-btni-playall').click();
-                    }, 1000);
+			var songsize = doc.querySelectorAll(".j-flag table tr").length;
+			if(songsize > 0){
+				if(parseFloat(document.querySelector(".cur").style.width) > 0){
+					clearInterval(timer);	
+				}else{
+					doc.querySelector('.u-btni-addply,.u-btni-playall').click();
+				}
+			}
+                    }, 2000);
                 }
             }, 1000);
         } catch (ex) {
