@@ -8,6 +8,12 @@
 			_self.next();
 
 		}
+		this.video.onerror = function () {
+			console.log('play error');
+		}
+		this.video.onloadedmetadata=function(){
+			_self.play();
+		}
 		document.body.appendChild(this.video);
 
 		//音乐列表

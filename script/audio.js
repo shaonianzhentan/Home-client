@@ -12,6 +12,9 @@ class Media {
 		this.video.style.display = 'none';
 		this.video.onend = function () {
 
+		}		
+		this.video.onloadedmetadata=function(){
+			this.play();
 		}
 		document.body.appendChild(this.video);
 
