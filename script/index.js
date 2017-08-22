@@ -1,7 +1,7 @@
 ﻿class HOME {
 	constructor() {
 		this.clock = new Clock();
-		this.music = new Music(document.querySelector("#mainFrame"));
+		this.music = new Music();
 		this.conn();
 		this.tick();
 		this.voice = new Voice(this);
@@ -22,10 +22,10 @@
 								_self.music.load(obj.msg);
 								return;
 							case 'play':
-								_self.music.m.play();
+								_self.music.play();
 								break;
 							case 'random':
-								_self.music.m.random();
+								_self.music.random();
 								break;
 							case 'up':
 								_self.music.load('app/radio.html');
@@ -34,13 +34,13 @@
 								_self.music.load('http://music.163.com/#/playlist?id=42711144');
 								break;
 							case 'prev':
-								_self.music.m.prev();
+								_self.music.prev();
 								break;
 							case 'next':
-								_self.music.m.next();
+								_self.music.next();
 								break;
 							case 'pause':
-								_self.music.m.pause();
+								_self.music.pause();
 								break;
 						}
 						media.ShowMsg(obj.msg);

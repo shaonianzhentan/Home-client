@@ -1,58 +1,230 @@
 ﻿class Music {
-	constructor(wv) {
-		this.wv = wv;
+	constructor() {
+		this.video = document.createElement('video');
+		this.video.style.display = 'none';
 		var _self = this;
-		this.wv.addEventListener('new-window', (e) => {
-			const protocol = require('url').parse(e.url).protocol
-			if (protocol === 'http:' || protocol === 'https:') {
-				_self.wv.src = e.url;
-			}
+		this.video.onended = function () {
+			console.log('play end');
+			_self.next();
+
+		}
+		document.body.appendChild(this.video);
+
+		//音乐列表
+		this.musicList = [];
+		this.musicIndex = 0;
+		this.isLoading = false;
+	}
+
+	setMusicList(arr) {
+		this.musicList = arr || [];
+		this.musicIndex = 0;
+	}
+	//搜索
+	/*
+	1: 单曲
+	10: 专辑
+	100: 歌手
+	1000: 歌单
+	1002: 用户
+	1004: MV
+	1006: 歌词
+	1009: 电台 
+	*/
+	search(keywords, type, limit, offset) {
+		var args = '?keywords=' + keywords;
+		if (type) args += '&type=' + type;
+		if (limit) args += '&limit=' + limit;
+		if (offset) args += '&type=' + offset;
+
+		var _self = this;
+
+		return new Promise((resolve, reject) => {
+			fetch('http://localhost:3000/search' + args).then(function (res) {
+
+				res.json().then(function (data) {
+
+					var arr = [];
+
+					if (!type || type == 1) {
+						//单曲搜索
+						data.result.songs.forEach(function (ele) {
+							arr.push({
+								id: ele.id,
+								title: ele.name,
+								name: ele.artists[0].name
+							});
+						})
+						_self.setMusicList(arr);
+
+						resolve();
+					} else if (type == 100) {
+						//歌手搜索
+						if (data.result.artistCount) {
+							var id = data.result.artists[0].id;
+							fetch('http://localhost:3000/artists?id=' + id).then(res => {
+								res.json().then(function (data) {
+
+									data.hotSongs.forEach(function (ele) {
+										arr.push({
+											id: ele.id,
+											title: ele.name,
+											name: ele.ar[0].name
+										});
+									})
+									_self.setMusicList(arr);
+
+									resolve();
+
+								})
+							}).catch(err => {
+
+							});
+						}
+					}
+				});
+
+
+			}).catch(function (err) {
+				console.log('Fetch Error : %S', err);
+				reject(err);
+			})
 		})
-
-		this.m = new _163(this);
 	}
-	load(link) {
+	//收音机
+	fm() {
 		var _self = this;
-		this.url = link;
-		this.wv.src = link;
+		return new Promise((resolve, reject) => {
+			fetch('http://localhost:8888/radio.json').then(res => {
+				res.json().then(data => {
+					var arr = [];
+					for (var k in data) {
+						data[k].forEach(function (ele) {
+							arr.push({
+								title: ele.title,
+								name: k,
+								url: ele.url
+							})
+						})
+					}
+					_self.setMusicList(arr);
+					resolve();
+				})
+			}).catch(err => {
+				reject(err);
+			})
+		})
+	}
 
-		return new Promise(function (resolve, reject) {
+	load() {
+		if (this.musicList.length == 0) return;
 
-			_self.wv.addEventListener('dom-ready', (e) => {
+		if (this.isLoading) return;
+		this.isLoading = true;
+		var obj = this.musicList[this.musicIndex];
 
-				_self.title = _self.wv.getTitle();
-				_self.setStatus('载入链接');
+		document.getElementById("music-title").innerHTML = obj.title + " - " + obj.name;
 
-				if (link.indexOf('app/radio.html') >= 0) {
-					_self.m = new FM(_self);
-				} else if (link.indexOf('music.163.com') >= 0) {
-					_self.m = new _163(_self);
-					setTimeout(function () {
-						_self.m.load();
-					}, 1000);
-				} else if (link.indexOf('www.ximalaya.com') >= 0) {
-					_self.m = new XMLA(_self);
-				} else if (link.indexOf('fm.baidu.com') >= 0) {
-					_self.m = new BaiDu(_self);
+		var _self = this;
+		var video = this.video;
+
+		//支付m3u8格式
+		if (obj['url'] && obj['url'].indexOf('.m3u8') > 0) {
+
+			return new Promise((resolve, reject) => {
+
+				if (Hls.isSupported()) {
+					var hls = new Hls();
+					hls.loadSource(obj['url']);
+					hls.attachMedia(video);
+					hls.on(Hls.Events.MANIFEST_PARSED, function () {
+						_self.play();
+						
+						resolve();
+					});
+					hls.on(Hls.Events.ERROR, function (event, data) {
+						//console.warn(data);
+
+						switch (data.details) {
+							case Hls.ErrorDetails.MANIFEST_LOAD_ERROR:
+							case Hls.ErrorDetails.LEVEL_LOAD_ERROR:
+							case Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT:
+								_self.next();
+								break;
+						}
+
+						if (data.fatal) {
+							//console.log('fatal error :' + data.details);
+							switch (data.type) {
+								case Hls.ErrorTypes.MEDIA_ERROR:
+									_self.next();
+									break;
+								case Hls.ErrorTypes.NETWORK_ERROR:
+									//$("#HlsStatus").append(",network error ...");
+									break;
+							}
+						}
+					});
 				}
-				console.log('载入链接成功');
-				resolve();
 			});
-		});
+		}
+		//网易云音乐
+		return new Promise((resolve, reject) => {
+			fetch('http://localhost:3000/music/url?id=' + obj.id).then(function (res) {
+				res.json().then(function (data) {
+					console.log(data);
+
+					video.src = data.data[0].url;
+					_self.play();
+
+					_self.isLoading = false;
+					resolve();
+				})
+
+			}).catch(function (err) {
+				console.log('Fetch Error : %S', err);
+				_self.isLoading = false;
+				reject(err);
+			})
+		})
 	}
-	exec(script) {
-		this.wv.executeJavaScript(script);
+
+	play() {
+		this.video.play();
+		this.setStatus('播放');
+		console.log('playing');
 	}
+
+	pause() {
+		this.video.pause();
+		this.setStatus('暂停');
+	}
+
+	next() {
+		if (this.musicIndex >= this.musicList) {
+			this.musicIndex = 0;
+		} else {
+			this.musicIndex++;
+		}
+		this.setStatus('下一曲');
+		this.load();
+	}
+
+	prev() {
+		if (this.musicIndex < 0) {
+			this.musicIndex = this.musicList.lenght - 1;
+		} else {
+			this.musicIndex--;
+		}
+		this.setStatus('上一曲');
+		this.load();
+	}
+
 	setStatus(ss) {
 		this.status = ss;
 		this.optime = (new Date()).toLocaleString();
 		var _self = this;
 		setTimeout(function () {
-			_self.m.getInfo().then(function (obj) {
-				var title = obj.title || 'HAPPY';
-				var name = obj.name || 'MUSIC';
-				document.getElementById("music-title").innerHTML = title + " - " + name;
-			})
 			//发送状态信息到服务器
 			$.post('http://localhost:8888/os', {
 				key: 'setStatus', value: {
@@ -65,43 +237,5 @@
 				console.log(result);
 			})
 		}, 1000);
-	}
-	getInfo(ss) {
-		var _self = this;
-		return new Promise(function (resolve, reject) {
-			_self.exec('HOME_MUSIC.getInfo("' + ss + '")');
-			setTimeout(function () {
-				try {
-					var value = JSON.parse(clipboard.readText());
-					resolve(value);
-				} catch (ex) {
-					reject(ex);
-				}
-			}, 1000);
-		});
-	}
-	next(ss) {
-		this.exec(ss);
-		this.setStatus('下一曲');
-	}
-
-	prev(ss) {
-		this.exec(ss);
-		this.setStatus('上一曲');
-	}
-
-	play(ss) {
-		this.exec(ss);
-		this.setStatus('播放');
-	}
-
-	pause(ss) {
-		this.exec(ss);
-		this.setStatus('暂停');
-	}
-
-	random(ss) {
-		this.exec(ss);
-		this.setStatus('随机播放');
 	}
 }

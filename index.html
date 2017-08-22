@@ -38,12 +38,12 @@
         onload="LoadWeather()"></iframe>
       <div id="welcome" style="font-size:50px;font-family:幼圆;margin-top:110px;margin-bottom:90px;">你好啊</div>
 
-      <div style="width:900px;">
+      <div style="width:900px;position:absolute;bottom:50px;;left:50%;margin-left:-450px;">
         <div id="music-panel">
           <div id="music-info">
             <i class="fa fa-music" aria-hidden="true"></i>
             <marquee id="music-title" direction="left" scrollamount="2">
-              MUSIC HAPYY
+              音乐 MUSIC
             </marquee>
           </div>
         </div>
@@ -62,15 +62,8 @@
           </div>
         </div>
       </div>
-
-
-
     </center>
   </div>
-
-  <!--操作界面-->
-  <webview id="mainFrame" plugins disablewebsecurity src="http://music.163.com/#/playlist?id=42711144" useragent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36"
-    preload="./script/preload.js"></webview>
 
   <!--语音-->
   <script src="script/xfyun/fingerprint.js" onload="window.Fingerprint = module.exports;"></script>
@@ -80,10 +73,6 @@
   <script src="script/voice.js"></script>
   <!--音乐-->
   <script src="script/music.js"></script>
-  <script src="script/music.163.js"></script>
-  <script src="script/music.baidu.js"></script>
-  <script src="script/music.fm.js"></script>
-  <script src="script/music.xmly.js"></script>
   <!--入口点-->
   <script src="script/index.js"></script>
   <!--界面操作-->
