@@ -1,6 +1,7 @@
 简单介绍
 ===
-本程序依赖Electron程序
+本程序依赖[Electron](https://github.com/electron/electron)、[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
 
 这个是我准备做的家庭中心整套程序的客户端，需要配合服务端使用
 
