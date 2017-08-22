@@ -9,7 +9,8 @@ var audioPalyUrl = "http://h5.xf-yun.com/audioStream/";
 class Media {
 	constructor() {
 		this.video = document.createElement('video');
-		this.video.style.display = 'none';
+		this.video.style.display = 'none';		
+		this.video.controls = true;
 		this.video.onend = function () {
 
 		}		

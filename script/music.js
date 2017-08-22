@@ -2,6 +2,7 @@
 	constructor() {
 		this.video = document.createElement('video');
 		this.video.style.display = 'none';
+		this.video.controls = true;
 		var _self = this;
 		this.video.onended = function () {
 			console.log('play end');
