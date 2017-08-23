@@ -14,9 +14,10 @@ class Media {
 		this.video.onend = function () {
 
 		}		
-		this.video.onloadedmetadata=function(){
+		this.video.oncanplay = function () {
 			this.play();
 		}
+		
 		document.body.appendChild(this.video);
 
 		this.session = new IFlyTtsSession({

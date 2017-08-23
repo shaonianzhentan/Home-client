@@ -3,6 +3,7 @@
 		this.video = document.createElement('video');
 		this.video.style.display = 'none';
 		this.video.controls = true;
+		this.video.autoplay = true;
 		var _self = this;
 		this.video.onended = function () {
 			console.log('play end');
@@ -12,20 +13,34 @@
 		this.video.onerror = function () {
 			console.log('play error');
 		}
-		this.video.onloadedmetadata=function(){
+		this.video.oncanplay = function () {
+			console.log('can play');
 			_self.play();
 		}
 		document.body.appendChild(this.video);
 
 		//音乐列表
-		this.musicList = [];
+		this.musicList = this.getMusicList();
 		this.musicIndex = 0;
 		this.isLoading = false;
 	}
+	//获取音乐列表
+	getMusicList() {
+		try {
+			var ml = localStorage["MUSIC-LIST"];
+			if (ml) {
+				return JSON.parse(ml);
+			}
+		} catch (ex) {
 
+		}
+		return [];
+	}
+	//保存音乐列表
 	setMusicList(arr) {
 		this.musicList = arr || [];
 		this.musicIndex = 0;
+		localStorage["MUSIC-LIST"] = JSON.stringify(this.musicList);
 	}
 	//搜索
 	/*
@@ -130,8 +145,6 @@
 		this.isLoading = true;
 		var obj = this.musicList[this.musicIndex];
 
-		document.getElementById("music-title").innerHTML = obj.title + " - " + obj.name;
-
 		var _self = this;
 		var video = this.video;
 
@@ -146,7 +159,7 @@
 					hls.attachMedia(video);
 					hls.on(Hls.Events.MANIFEST_PARSED, function () {
 						_self.play();
-						
+
 						resolve();
 					});
 					hls.on(Hls.Events.ERROR, function (event, data) {
@@ -182,7 +195,7 @@
 					console.log(data);
 
 					video.src = data.data[0].url;
-					_self.play();
+					//_self.play();
 
 					_self.isLoading = false;
 					resolve();
@@ -198,7 +211,7 @@
 
 	play() {
 		this.video.play();
-		this.setStatus('播放');
+		this.setStatus('正在播放');
 		console.log('playing');
 	}
 
@@ -244,5 +257,12 @@
 				console.log(result);
 			})
 		}, 1000);
+
+		var obj = this.musicList[this.musicIndex];
+		if (obj) {
+			document.getElementById("music-title").innerHTML = this.status + '：    ' + obj.title + " - " + obj.name;
+		} else {
+			document.getElementById("music-title").innerHTML = '没有音乐';
+		}
 	}
 }

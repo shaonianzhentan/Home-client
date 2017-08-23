@@ -11,7 +11,6 @@ class Voice {
 	}
 
 	start() {
-
 		//发送信息，开始监听		
 		this.home.send({ type: 'voice-remote', result: 'open' });
 		this.text('开始聆听...');
@@ -19,6 +18,9 @@ class Voice {
 		//5秒后，还没有听到任何内容就重置
 		setTimeout(function () {
 			if (_self.isListening == false) {
+				//通知服务重启热词监听，因为没听到任何数据，
+				//code
+
 				_self.reset();
 			}
 		}, 5000);
@@ -83,13 +85,25 @@ class Voice {
 			this.home.music.next();
 			this.home.media.ShowMsg('下一曲');
 		} else {
-			$.post("http://www.tuling123.com/openapi/api", {
-				key: 'b1a4b4c8964b4d0b82dd013acef45f33',
-				info: msg.replace('小白', ''),
-				userid: '9527'
-			}, function (data) {
-				_self.home.media.ShowMsg(data.text);
-			})
+
+			fetch('http://www.tuling123.com/openapi/api', {
+				method: "POST",
+				headers: {
+					'Content-Type': 'x-www-form-urlencoded;charset=utf-8'
+				},
+				body: JSON.stringify({
+					key: 'b1a4b4c8964b4d0b82dd013acef45f33',
+					info: encodeURIComponent(msg),
+					userid: '9527'
+				})
+			}).then(function (res) {				
+				res.json().then(function (data) {					
+					//console.log(data);
+					_self.home.media.ShowMsg(data.text);
+				})
+			}).catch(function (e) {
+
+			});
 		}
 		setTimeout(function () {
 			_self.reset();
@@ -103,7 +117,7 @@ class Voice {
 
 	//还原
 	reset() {
-		this.text('语音助手小白竭诚为您服务');
+		this.text('我是语音助手小白，现在立刻马上为您服务');
 		this.isListening = false;
 	}
 }

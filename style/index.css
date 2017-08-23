@@ -32,9 +32,8 @@ a{text-decoration:none;}
 
 #voice-panel{width:400px;float:right;}
 .speech-loader{display:flex;width:400px; }
-.speech-loader .speech-text{color:white;padding:10px 0 0 20px;  
-  animation: neon2 1.5s ease-in-out infinite alternate;}
-
+.speech-loader .speech-text{color:white;padding:10px 0 0 20px;
+/*  animation: neon2 1.5s ease-in-out infinite alternate; */}
 
 @-webkit-keyframes neon2 {
   from {
