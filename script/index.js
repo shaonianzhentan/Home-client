@@ -1,11 +1,11 @@
 ﻿class HOME {
-	constructor() {
+	constructor() {		
+		this.media = new Media(this);
 		this.clock = new Clock();
 		this.music = new Music();
 		this.conn();
 		this.tick();
 		this.voice = new Voice(this);
-		this.media = media;
 		this.text = new HomeText();
 	}
 	conn() {
@@ -170,8 +170,8 @@
 	}
 }
 
-var media = new Media();
 var home = new HOME();
+var media = home.media;
 
 const { ipcRenderer, clipboard } = require('electron');
 
