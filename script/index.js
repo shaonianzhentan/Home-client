@@ -6,6 +6,7 @@
 		this.tick();
 		this.voice = new Voice(this);
 		this.media = media;
+		this.text = new HomeText();
 	}
 	conn() {
 		var _self = this;

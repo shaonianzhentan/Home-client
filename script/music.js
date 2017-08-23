@@ -18,14 +18,11 @@
 			_self.play();
 		}
 		document.body.appendChild(this.video);
-
-		//音乐列表
-		this.musicList = this.getMusicList();
-		this.musicIndex = 0;
 		this.isLoading = false;
 	}
-	//获取音乐列表
-	getMusicList() {
+
+	//音乐列表
+	get musicList() {
 		try {
 			var ml = localStorage["MUSIC-LIST"];
 			if (ml) {
@@ -36,12 +33,26 @@
 		}
 		return [];
 	}
-	//保存音乐列表
-	setMusicList(arr) {
-		this.musicList = arr || [];
-		this.musicIndex = 0;
-		localStorage["MUSIC-LIST"] = JSON.stringify(this.musicList);
+	set musicList(value) {
+		if (Array.isArray(value)) {
+			localStorage["MUSIC-LIST"] = JSON.stringify(value);
+		}
 	}
+	//音乐列表索引
+	get musicIndex() {
+		try {
+			return localStorage["MUSIC-INDEX"] || 0;
+		} catch (ex) {
+			return 0;
+		}
+		return [];
+	}
+	set musicIndex(value) {
+		localStorage["MUSIC-INDEX"] = value;
+	}
+
+
+
 	//搜索
 	/*
 	1: 单曲
@@ -77,7 +88,7 @@
 								name: ele.artists[0].name
 							});
 						})
-						_self.setMusicList(arr);
+						_self.musicList = arr;
 
 						resolve();
 					} else if (type == 100) {
@@ -94,7 +105,7 @@
 											name: ele.ar[0].name
 										});
 									})
-									_self.setMusicList(arr);
+									_self.musicList = arr;
 
 									resolve();
 
@@ -129,7 +140,7 @@
 							})
 						})
 					}
-					_self.setMusicList(arr);
+					_self.musicList = arr;
 					resolve();
 				})
 			}).catch(err => {
@@ -152,14 +163,13 @@
 		if (obj['url'] && obj['url'].indexOf('.m3u8') > 0) {
 
 			return new Promise((resolve, reject) => {
-
+				home.text.start();
 				if (Hls.isSupported()) {
 					var hls = new Hls();
 					hls.loadSource(obj['url']);
 					hls.attachMedia(video);
 					hls.on(Hls.Events.MANIFEST_PARSED, function () {
 						_self.play();
-
 						resolve();
 					});
 					hls.on(Hls.Events.ERROR, function (event, data) {
@@ -190,15 +200,23 @@
 		}
 		//网易云音乐
 		return new Promise((resolve, reject) => {
+			//获取音乐地址
 			fetch('http://localhost:3000/music/url?id=' + obj.id).then(function (res) {
 				res.json().then(function (data) {
-					console.log(data);
+					//console.log(data);
 
 					video.src = data.data[0].url;
 					//_self.play();
 
 					_self.isLoading = false;
 					resolve();
+
+					//获取歌词					
+					fetch('http://localhost:3000/lyric?id=' + obj.id).then(function (res) {
+						res.json().then(function (data) {
+							home.text.showlrc(data.lrc.lyric);
+						})
+					})
 				})
 
 			}).catch(function (err) {
@@ -210,9 +228,13 @@
 	}
 
 	play() {
-		this.video.play();
-		this.setStatus('正在播放');
-		console.log('playing');
+		if (!this.video.src) {
+			this.load();
+		} else {
+			this.video.play();
+			this.setStatus('正在播放');
+			console.log('playing');
+		}
 	}
 
 	pause() {
