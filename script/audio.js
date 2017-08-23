@@ -7,7 +7,8 @@ var audioPalyUrl = "http://h5.xf-yun.com/audioStream/";
   */
 
 class Media {
-	constructor() {
+	constructor(home) {
+		this.home = home;
 		this.audio = document.createElement('audio');
 		this.audio.style.display = 'none';
 		this.audio.controls = true;
@@ -62,7 +63,11 @@ class Media {
 	}
 
 	play(url) {
-		this.audio.src = url;
+		if (navigator.platform.toLocaleLowerCase() == 'win32') {
+			this.audio.src = url;
+		} else {
+			this.home.send({ type: 'voice-remote', result: 'speak', msg: url });
+		}
 	}
 
 	ShowTips(msg) {
