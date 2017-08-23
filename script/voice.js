@@ -19,9 +19,9 @@ class Voice {
 		setTimeout(function () {
 			if (_self.isListening == false) {
 				//通知服务重启热词监听，因为没听到任何数据，
-				//code
-
-				_self.reset();
+				this.home.http_program('resetvoice', '').then(res => {
+					_self.reset();
+				})				
 			}
 		}, 5000);
 	}
@@ -44,14 +44,29 @@ class Voice {
 
 		var singer = msg.match(/播放([^.]+)的歌/) || msg.match(/我想听([^.]+)的歌/);
 		var song = msg.match(/来一首([^.]+)/) || msg.match(/我想听([^.]+)/);
+		var radio = msg.match(/我想听电台([^.]+)/);
+		var songList = msg.match(/打开歌单([^.]+)/) || msg.match(/我想听歌单([^.]+)/);
 
-		if (singer) {
+		if (songList) {
+			var key = songList[1];
+			this.home.music.search(key, 1000).then(function () {
+				_self.home.music.load();
+			});
+			_self.home.media.ShowMsg('正在为你播放歌单,' + key);
+
+		} else if (singer) {
 			var key = singer[1];
 			this.home.music.search(key, 100).then(function () {
 				_self.home.music.load();
 			});
 			_self.home.media.ShowMsg('正在为你播放' + key + '的歌');
 
+		} else if (radio) {
+			var key = radio[1];
+			this.home.music.search(key, 1009).then(function () {
+				_self.home.music.load();
+			});
+			_self.home.media.ShowMsg('正在为你播放' + key);
 		} else if (song) {
 			var key = song[1];
 			this.home.music.search(key).then(function () {
@@ -96,8 +111,8 @@ class Voice {
 					info: encodeURIComponent(msg),
 					userid: '9527'
 				})
-			}).then(function (res) {				
-				res.json().then(function (data) {					
+			}).then(function (res) {
+				res.json().then(function (data) {
 					//console.log(data);
 					_self.home.media.ShowMsg(data.text);
 				})

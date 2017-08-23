@@ -36,12 +36,13 @@
 	set musicList(value) {
 		if (Array.isArray(value)) {
 			localStorage["MUSIC-LIST"] = JSON.stringify(value);
+			this.musicIndex = 0;
 		}
 	}
 	//音乐列表索引
 	get musicIndex() {
 		try {
-			return localStorage["MUSIC-INDEX"] || 0;
+			return parseInt(localStorage["MUSIC-INDEX"]) || 0;
 		} catch (ex) {
 			return 0;
 		}
@@ -50,8 +51,6 @@
 	set musicIndex(value) {
 		localStorage["MUSIC-INDEX"] = value;
 	}
-
-
 
 	//搜索
 	/*
@@ -107,6 +106,41 @@
 									})
 									_self.musicList = arr;
 
+									resolve();
+
+								})
+							}).catch(err => {
+
+							});
+						}
+					} else if (type == 1009) {
+						//电台搜索
+						if (data.result.djprogramCount) {
+							data.result.djprograms.forEach(ele => {
+								arr.push({
+									id: ele.mainSong.id,
+									title: ele.name,
+									name: ele.radio.name
+								});
+							})
+							_self.musicList = arr;
+							resolve();
+						}
+					} else if (type == 1000) {
+						//歌单
+						if (data.result.playlistCount) {
+							var id = data.result.playlists[0].id;
+							fetch('http://localhost:3000/playlist/detail?id=' + id).then(res => {
+								res.json().then(function (data) {
+
+									data.playlist.tracks.forEach(function (ele) {
+										arr.push({
+											id: ele.id,
+											title: ele.name,
+											name: ele.ar[0].name
+										});
+									})
+									_self.musicList = arr;
 									resolve();
 
 								})
@@ -239,7 +273,7 @@
 
 	pause() {
 		this.video.pause();
-		this.setStatus('暂停');
+		this.setStatus('暂停音乐');
 	}
 
 	next() {
@@ -268,14 +302,12 @@
 		var _self = this;
 		setTimeout(function () {
 			//发送状态信息到服务器
-			$.post('http://localhost:8888/os', {
-				key: 'setStatus', value: {
-					MusicTitle: _self.title,
-					MusicStatus: _self.status,
-					MusicUrl: _self.url,
-					MusicTime: _self.optime
-				}
-			}, function (result) {
+			home.http_os('setStatus', {
+				MusicTitle: _self.title,
+				MusicStatus: _self.status,
+				MusicUrl: _self.url,
+				MusicTime: _self.optime
+			}).then(result => {
 				console.log(result);
 			})
 		}, 1000);
@@ -286,5 +318,14 @@
 		} else {
 			document.getElementById("music-title").innerHTML = '没有音乐';
 		}
+	}
+
+	random() {
+		var len = this.musicList.length;
+		var index = Math.round(Math.random() * len);
+		if (index == len) index = 0;
+		this.musicIndex = index;
+		this.setStatus('随机播放');
+		this.load();
 	}
 }

@@ -29,10 +29,12 @@
 								_self.music.random();
 								break;
 							case 'up':
-								_self.music.load('app/radio.html');
+								_self.music.fm().then(function () {
+									_self.music.load();
+								});
 								break;
 							case 'down':
-								_self.music.load('http://music.163.com/#/playlist?id=42711144');
+								_self.music.random();
 								break;
 							case 'prev':
 								_self.music.prev();
@@ -142,6 +144,14 @@
 	http_os(key, value) {
 		return new Promise(function (resolve, reject) {
 			$.post('http://localhost:8888/os', { key: key, value: value }, function (data) {
+				resolve(data);
+			})
+		})
+	}
+
+	http_program(key, value) {
+		return new Promise(function (resolve, reject) {
+			$.post('http://localhost:8888/program', { key: key, value: value }, function (data) {
 				resolve(data);
 			})
 		})
