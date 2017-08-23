@@ -8,17 +8,17 @@ var audioPalyUrl = "http://h5.xf-yun.com/audioStream/";
 
 class Media {
 	constructor() {
-		this.video = document.createElement('video');
-		this.video.style.display = 'none';		
-		this.video.controls = true;
-		this.video.onend = function () {
+		this.audio = document.createElement('audio');
+		this.audio.style.display = 'none';
+		this.audio.controls = true;
+		this.audio.onend = function () {
 
-		}		
-		this.video.oncanplay = function () {
+		}
+		this.audio.oncanplay = function () {
 			this.play();
 		}
-		
-		document.body.appendChild(this.video);
+
+		document.body.appendChild(this.audio);
 
 		this.session = new IFlyTtsSession({
 			'url': 'ws://h5.xf-yun.com/tts.do',
@@ -62,20 +62,7 @@ class Media {
 	}
 
 	play(url) {
-		var video = this.video;
-		if (url.indexOf('.m3u8') > 0) {
-			if (Hls.isSupported()) {
-				var hls = new Hls();
-				hls.loadSource(url);
-				hls.attachMedia(video);
-				hls.on(Hls.Events.MANIFEST_PARSED, function () {
-					video.play();
-				});
-			}
-		} else {
-			video.src = url;
-			video.play();
-		}
+		this.audio.src = url;
 	}
 
 	ShowTips(msg) {
