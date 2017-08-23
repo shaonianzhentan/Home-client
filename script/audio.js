@@ -63,15 +63,10 @@ class Media {
 	}
 
 	play(url) {
-		if (navigator.platform.toLocaleLowerCase() == 'win32') {
-			this.audio.src = url;
-		} else {
-			this.home.send({ type: 'voice-remote', result: 'speak', msg: url });
-		}
+		this.audio.src = url;
 	}
 
 	ShowTips(msg) {
 		Messenger().post(msg);
-		//Snackbar.show({pos: 'bottom-right',text:msg, actionText:''});
 	}
 }
