@@ -238,8 +238,9 @@
 			fetch('http://localhost:3000/music/url?id=' + obj.id).then(function (res) {
 				res.json().then(function (data) {
 					//console.log(data);
-
-					video.src = data.data[0].url;
+					var url = data.data[0].url;
+					if (url) video.src = url;
+					else _self.next();
 					//_self.play();
 
 					_self.isLoading = false;
