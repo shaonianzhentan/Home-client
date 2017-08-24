@@ -1,7 +1,7 @@
 ﻿class HOME {
 	constructor() {		
 		this.media = new Media(this);
-		this.clock = new Clock();
+		this.clock = new Clock(this);
 		this.music = new Music();
 		this.conn();
 		this.tick();
@@ -46,7 +46,7 @@
 								_self.music.pause();
 								break;
 						}
-						media.ShowMsg(obj.msg);
+						_self.media.ShowMsg(obj.msg);
 						break;
 					//程序控制
 					case 'program':
@@ -60,8 +60,8 @@
 							case 'refresh': //更新配置数据								
 								_self.clock.load();
 								break;
-							case 'screenshots':
-								ipcRenderer.send('system', 'capturePage');
+							case 'screenshots'://截图
+								
 								break;
 							case 'baoshi':
 								_self.clock.play(obj.msg);
@@ -171,11 +171,3 @@
 }
 
 var home = new HOME();
-var media = home.media;
-
-const { ipcRenderer, clipboard } = require('electron');
-
-ipcRenderer.on('capturePage', (event, arg) => {
-	console.log(arg);
-	$.post('http://localhost:8888/program', { key: 'screenshots-up', value: arg });
-})
