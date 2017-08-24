@@ -1,4 +1,6 @@
-简单介绍
+
+
+简单介绍（代码全部合并到服务端了，客户端停止更新）
 ===
 本程序依赖[Electron](https://github.com/electron/electron)、[NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
